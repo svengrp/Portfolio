@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sven — Développeur full-stack à Genève</title>
 <meta name="description" content="Portfolio de Sven, étudiant en informatique de gestion à la HEG Genève et développeur full-stack JavaScript. Projets : Hive, plateforme de mise en relation autour de projets, Neosite, refonte de sites web, et Enosis, marque de vêtements de musculation.">
-<meta name="theme-color" content="#0B0C10">
+<meta name="theme-color" content="#121420">
 <meta property="og:title" content="Sven — Développeur full-stack à Genève">
 <meta property="og:description" content="Applications web complètes : interface, API, base de données et monitoring.">
 <meta property="og:type" content="website">
@@ -16,7 +16,7 @@
 
 <style>
 :root{
-  --fond:#0B0C10; --fond-2:#121319; --fond-3:#181A22; --texte:#ECEBF0; --gris:#9A9CA8; --trait:rgba(236,235,240,.1); --trait-fort:rgba(236,235,240,.22);
+  --fond:#121420; --fond-2:#191C2A; --fond-3:#20243A; --texte:#ECEBF0; --gris:#9A9CA8; --trait:rgba(236,235,240,.1); --trait-fort:rgba(236,235,240,.22);
   --iris:#8C8FFF; --iris-pale:rgba(140,143,255,.14); --ambre:#E8B04A; --menthe:#5BE3B5;
   --serif:'Bricolage Grotesque', 'Hanken Grotesk', system-ui, sans-serif;
   --sans:'Hanken Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -42,7 +42,7 @@ a{color:inherit}
 /* NAV */
 .nav{position:fixed;inset:0 0 auto 0;z-index:50;padding-top:env(safe-area-inset-top,0px);transition:background .35s var(--ease),box-shadow .35s var(--ease)}
 .nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.nav.scrolled{background:rgba(11,12,16,.78);-webkit-backdrop-filter:saturate(1.3) blur(14px);backdrop-filter:saturate(1.3) blur(14px);box-shadow:0 1px 0 var(--trait)}
+.nav.scrolled{background:rgba(18,20,32,.78);-webkit-backdrop-filter:saturate(1.3) blur(14px);backdrop-filter:saturate(1.3) blur(14px);box-shadow:0 1px 0 var(--trait)}
 .brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--serif);font-size:24px;font-weight:600;text-decoration:none;letter-spacing:-.02em;line-height:1}
 .brand svg{width:20px;height:20px;color:var(--iris)}
 .nav-links{display:flex;align-items:center;gap:36px;font-size:15px}
@@ -65,8 +65,9 @@ a{color:inherit}
 
 /* HERO : champ de lignes de force interactif */
 .hero{position:relative;height:100vh;height:100svh;min-height:600px;overflow:hidden;background:var(--fond);touch-action:pan-y}
-.champ{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;animation:apparaitre 1.6s .2s var(--ease) forwards}
-.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 0% 100%,rgba(11,12,16,.92) 0%,rgba(11,12,16,.55) 38%,rgba(11,12,16,0) 68%),linear-gradient(0deg,var(--fond) 0%,rgba(11,12,16,0) 22%);pointer-events:none}
+.champ{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;animation:apparaitre 2s .1s var(--ease) forwards;filter:saturate(1.15)}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 0% 100%,rgba(18,20,32,.92) 0%,rgba(18,20,32,.55) 38%,rgba(18,20,32,0) 68%),linear-gradient(0deg,var(--fond) 0%,rgba(18,20,32,0) 22%);pointer-events:none}
 .hero-content{position:absolute;z-index:2;left:0;right:0;bottom:clamp(40px,9vh,104px);pointer-events:none}
 .hero-content a,.hero-content button{pointer-events:auto}
 .hero-grid{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
@@ -93,6 +94,10 @@ a{color:inherit}
 
 /* SECTIONS */
 section{position:relative}
+.sec{isolation:isolate;overflow-x:clip}
+.sec::after{content:"";position:absolute;z-index:-1;top:0;right:-12vw;width:min(70vw,900px);aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(140,143,255,.13),transparent);pointer-events:none}
+#parcours::after{right:auto;left:-18vw;background:radial-gradient(closest-side,rgba(47,196,178,.1),transparent)}
+#stack::after{background:radial-gradient(closest-side,rgba(197,91,255,.1),transparent)}
 .sec{padding:clamp(88px,12vw,160px) 0 0}
 .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:clamp(36px,5vw,64px);padding-top:28px;position:relative}
 .sec-head::before,.about::before{content:"";position:absolute;top:0;height:1px;background:linear-gradient(90deg,var(--iris),var(--trait-fort) 40%,var(--trait) 100%);transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--trace)}
@@ -113,7 +118,7 @@ h4{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:.01em}
 .project{background:var(--fond-2);border:1px solid var(--trait);border-radius:10px;overflow:hidden}
 .project + .project,.project + .enosis{margin-top:clamp(24px,3vw,40px)}
 .project-top{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
-.stage{position:relative;background:radial-gradient(70% 70% at 50% 45%,rgba(140,143,255,.16),transparent 70%),radial-gradient(rgba(236,235,240,.09) 1px,transparent 1.2px) 0 0/22px 22px,var(--fond-3);padding:clamp(20px,4vw,48px);display:flex;align-items:center;overflow:hidden;perspective:1200px}
+.stage{position:relative;background:radial-gradient(70% 80% at 30% 20%,rgba(140,143,255,.22),transparent 70%),radial-gradient(60% 70% at 85% 90%,rgba(47,196,178,.14),transparent 70%),var(--fond-3);padding:clamp(20px,4vw,48px);display:flex;align-items:center;overflow:hidden;perspective:1200px}
 .browser{position:relative;width:100%;border-radius:8px;overflow:hidden;box-shadow:0 50px 90px -40px rgba(0,0,0,.8),0 0 0 1px rgba(236,235,240,.08);transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));clip-path:inset(0 0 100% 0);transition:clip-path 1.3s .2s var(--trace),transform .5s var(--ease)}
 .browser::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at var(--gx,50%) var(--gy,0%),rgba(255,255,255,.16),transparent 60%);opacity:var(--go,0);transition:opacity .4s;pointer-events:none}
 .project.in .browser{clip-path:inset(0 0 0 0)}
@@ -128,6 +133,9 @@ h4{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:.01em}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(140,143,255,.5)}70%{box-shadow:0 0 0 8px rgba(140,143,255,0)}100%{box-shadow:0 0 0 0 rgba(140,143,255,0)}}
 @keyframes pulse-m{0%{box-shadow:0 0 0 0 rgba(91,227,181,.45)}70%{box-shadow:0 0 0 8px rgba(91,227,181,0)}100%{box-shadow:0 0 0 0 rgba(91,227,181,0)}}
 .project-info p{margin:0}
+.titre-logo{display:flex;align-items:center;gap:14px}
+.titre-logo svg{width:1.15em;height:1.15em;color:#5B8DEF;flex-shrink:0;transition:transform .6s var(--ease)}
+.project:hover .titre-logo svg{transform:rotate(30deg)}
 .intro{font-size:clamp(18px,1.6vw,21px);line-height:1.5;color:var(--texte)}
 .project-info .second{color:var(--gris);font-size:15.5px}
 .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:auto;padding-top:8px}
@@ -175,7 +183,7 @@ h4{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:.01em}
 
 /* PROJECT: ENOSIS */
 .enosis{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);background:var(--fond-2);border:1px solid var(--trait);border-radius:10px;overflow:hidden}
-.enosis-mark{background:radial-gradient(rgba(236,235,240,.07) 1px,transparent 1.2px) 0 0/22px 22px,#08090C;color:var(--texte);padding:clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:space-between;gap:48px;min-height:clamp(300px,34vw,460px);position:relative;overflow:hidden;border-right:1px solid var(--trait)}
+.enosis-mark{background:radial-gradient(90% 70% at 20% 0%,rgba(197,91,255,.18),transparent 70%),#0F111B;color:var(--texte);padding:clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:space-between;gap:48px;min-height:clamp(300px,34vw,460px);position:relative;overflow:hidden;border-right:1px solid var(--trait)}
 .enosis-word{font-family:var(--sans);font-weight:600;font-size:clamp(38px,3.6vw,56px);letter-spacing:.12em;line-height:1;position:relative;text-transform:uppercase}
 .enosis-tag{position:relative;font-size:15px;color:var(--gris);max-width:22em}
 .enosis-logo{position:relative;align-self:flex-start;width:auto;height:clamp(120px,13vw,190px);transition:transform .8s var(--ease)}
@@ -226,7 +234,7 @@ h4{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:.01em}
 .tech-role{font-size:13.5px;color:var(--gris);text-align:right}
 
 /* CONTACT */
-.contact{margin-top:clamp(96px,12vw,160px);background:radial-gradient(80% 120% at 100% 0%,rgba(140,143,255,.14),transparent 60%),#08090C;border-top:1px solid var(--trait);padding:clamp(72px,10vw,120px) 0 calc(36px + env(safe-area-inset-bottom,0px));position:relative;overflow:hidden}
+.contact{margin-top:clamp(96px,12vw,160px);background:radial-gradient(80% 120% at 100% 0%,rgba(140,143,255,.14),transparent 60%),#0F111B;border-top:1px solid var(--trait);padding:clamp(72px,10vw,120px) 0 calc(36px + env(safe-area-inset-bottom,0px));position:relative;overflow:hidden}
 .contact .wrap{position:relative}
 .contact h2{font-size:clamp(44px,7vw,100px);max-width:12ch}
 .contact-row{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap}
@@ -249,7 +257,7 @@ footer a{text-decoration:none;color:var(--texte)}footer a:hover{text-decoration:
   body{font-size:16px}
   .nav-links{display:none}
   .burger{display:inline-flex}
-  .hero::after{background:linear-gradient(0deg,var(--fond) 0%,rgba(11,12,16,.85) 45%,rgba(11,12,16,.1) 75%)}
+  .hero::after{background:linear-gradient(0deg,var(--fond) 0%,rgba(18,20,32,.85) 45%,rgba(18,20,32,.1) 75%)}
   .hero-grid{flex-direction:column;align-items:flex-start}
   .cue{display:none}
   .hero-actions .btn{flex:1 1 auto}
@@ -346,7 +354,7 @@ footer a{text-decoration:none;color:var(--texte)}footer a:hover{text-decoration:
           </div>
           <div class="project-info">
             <div class="meta"><span class="live">En ligne</span><span>Application web, 2026</span></div>
-            <h3 id="hive-title">Hive</h3>
+            <h3 id="hive-title" class="titre-logo"><svg viewBox="0 0 64 64" aria-hidden="true"><polygon points="20.22,11.20 29.40,16.50 29.40,27.10 20.22,32.40 11.04,27.10 11.04,16.50" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><polygon points="43.78,11.20 52.96,16.50 52.96,27.10 43.78,32.40 34.60,27.10 34.60,16.50" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><polygon points="32.00,31.70 41.09,36.95 41.09,47.45 32.00,52.70 22.91,47.45 22.91,36.95" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linejoin="round"/></svg>Hive</h3>
             <p class="intro">Hive met en relation les porteurs de projets avec les personnes qui ont les compétences pour les faire avancer : un club de foot du dimanche, un site web, ou une idée qui attend la bonne équipe.</p>
             <p class="second">On choisit ses centres d'intérêt en arrivant, on explore les projets proches sur une carte, on échange en direct avec le porteur du projet, ou on publie le sien en quelques minutes.</p>
             <div class="actions">
@@ -616,58 +624,47 @@ footer a{text-decoration:none;color:var(--texte)}footer a:hover{text-decoration:
   menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setMenu(false)})});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.body.classList.contains('menu-open')){setMenu(false);burger.focus()}});
 
-  // ---------- Champ de lignes de force : il ondule seul, suit la souris, et un clic envoie une onde ----------
+  // ---------- Aurore : de grandes nappes de couleur dérivent, la souris les attire, un clic fait éclore une vague ----------
   var canvas=document.getElementById('champ'),ctx=canvas.getContext('2d'),indice=document.getElementById('indice');
-  var W=0,H=0,gap=28,nodes=[],ondes=[],visible=true,raf=0;
-  var m={x:-9999,y:-9999,tx:-9999,ty:-9999,actif:false,derniere:-1e9};
+  var W=0,H=0,S=0.25,visible=true,raf=0,eclats=[];
+  var m={x:0,y:0,tx:0,ty:0,actif:false,derniere:-1e9,init:false};
+  // couleur, rayon (part de la largeur), attraction vers la souris, vitesses de dérive
+  var nappes=[
+    {c:'140,143,255',r:.42,att:.42,fx:.00011,fy:.00017,ph:0,bx:.66,by:.34},
+    {c:'59,91,255',r:.5,att:.18,fx:.00008,fy:.00012,ph:2.1,bx:.82,by:.62},
+    {c:'47,196,178',r:.34,att:-.16,fx:.00014,fy:.0001,ph:4.2,bx:.48,by:.18},
+    {c:'197,91,255',r:.36,att:.28,fx:.00009,fy:.00015,ph:1.3,bx:.9,by:.2}
+  ];
+  nappes.forEach(function(n){n.x=n.bx;n.y=n.by});
   function taille(){
-    var dpr=Math.min(2,window.devicePixelRatio||1);
     W=canvas.clientWidth;H=canvas.clientHeight;
-    canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    gap=W<700?24:28;nodes=[];
-    for(var y=gap/2;y<H;y+=gap)for(var x=gap/2;x<W;x+=gap)nodes.push(x,y);
+    canvas.width=Math.max(1,Math.round(W*S));canvas.height=Math.max(1,Math.round(H*S));
+    ctx.setTransform(S,0,0,S,0,0);
   }
   function dessine(t){
-    var R=W<700?150:240;
-    if(!m.actif||t-m.derniere>3200){
-      m.tx=W*(0.64+0.22*Math.sin(t*0.00023));
-      m.ty=H*(0.4+0.24*Math.sin(t*0.00031+1.3));
-    }
-    if(m.x<-999){m.x=m.tx;m.y=m.ty}
-    m.x+=(m.tx-m.x)*0.08;m.y+=(m.ty-m.y)*0.08;
-    ondes=ondes.filter(function(o){return t-o.t0<1800});
-    ctx.clearRect(0,0,W,H);
-    var halo=ctx.createRadialGradient(m.x,m.y,0,m.x,m.y,R*1.6);
-    halo.addColorStop(0,'rgba(140,143,255,.13)');halo.addColorStop(1,'rgba(140,143,255,0)');
-    ctx.fillStyle=halo;ctx.fillRect(0,0,W,H);
-    ctx.lineCap='round';
-    ctx.lineWidth=1.4;
-    ctx.strokeStyle='rgba(236,235,240,.13)';
-    ctx.beginPath();
-    var vifs=[];
-    for(var i=0;i<nodes.length;i+=2){
-      var x=nodes[i],y=nodes[i+1];
-      var a=Math.sin(x*0.0045+t*0.00028)*1.3+Math.cos(y*0.0052-t*0.00021)*1.3+Math.sin((x+y)*0.002+t*0.00012);
-      var dx=m.x-x,dy=m.y-y,d=Math.sqrt(dx*dx+dy*dy);
-      var k=Math.max(0,1-d/R);
-      if(k>0){var vise=Math.atan2(dy,dx)+Math.PI/2;a+=Math.atan2(Math.sin(vise-a),Math.cos(vise-a))*k*k*0.95}
-      var w=0;
-      for(var j=0;j<ondes.length;j++){
-        var o=ondes[j],age=t-o.t0,r=age*0.75,od=Math.hypot(o.x-x,o.y-y),ecart=Math.abs(od-r);
-        if(ecart<46)w=Math.max(w,(1-ecart/46)*(1-age/1800));
-      }
-      var len=5+k*k*16+w*14,cx=Math.cos(a)*len/2,cy=Math.sin(a)*len/2;
-      if(k<0.02&&w<0.02){ctx.moveTo(x-cx,y-cy);ctx.lineTo(x+cx,y+cy)}
-      else vifs.push(x,y,cx,cy,Math.min(1,k*1.3+w),0.12+k*0.78+w*0.6);
-    }
-    ctx.stroke();
-    ctx.lineWidth=1.8;
-    for(var n=0;n<vifs.length;n+=6){
-      var c=vifs[n+4];
-      ctx.strokeStyle='rgba('+Math.round(236-96*c)+','+Math.round(235-92*c)+','+Math.round(240+15*c)+','+Math.min(1,vifs[n+5]).toFixed(3)+')';
-      ctx.beginPath();ctx.moveTo(vifs[n]-vifs[n+2],vifs[n+1]-vifs[n+3]);ctx.lineTo(vifs[n]+vifs[n+2],vifs[n+1]+vifs[n+3]);ctx.stroke();
-    }
+    if(!m.actif||t-m.derniere>3500){m.tx=W*(0.66+0.2*Math.sin(t*0.00019));m.ty=H*(0.36+0.2*Math.sin(t*0.00027+1))}
+    if(!m.init){m.x=m.tx;m.y=m.ty;m.init=true}
+    m.x+=(m.tx-m.x)*0.05;m.y+=(m.ty-m.y)*0.05;
+    ctx.globalCompositeOperation='source-over';
+    ctx.fillStyle='#121420';ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation='lighter';
+    var u=Math.max(W,H);
+    nappes.forEach(function(n){
+      var hx=(n.bx+0.1*Math.sin(t*n.fx+n.ph))*W,hy=(n.by+0.12*Math.cos(t*n.fy+n.ph))*H;
+      var gx=hx+(m.x-hx)*n.att,gy=hy+(m.y-hy)*n.att;
+      n.x+=(gx-n.x)*0.06;n.y+=(gy-n.y)*0.06;
+      var r=n.r*u*(1+0.06*Math.sin(t*0.0007+n.ph));
+      var g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,r);
+      g.addColorStop(0,'rgba('+n.c+',.5)');g.addColorStop(.45,'rgba('+n.c+',.2)');g.addColorStop(1,'rgba('+n.c+',0)');
+      ctx.fillStyle=g;ctx.fillRect(n.x-r,n.y-r,r*2,r*2);
+    });
+    eclats=eclats.filter(function(e){return t-e.t0<2200});
+    eclats.forEach(function(e){
+      var k=(t-e.t0)/2200,r=u*(0.08+0.5*k),a=(1-k)*(1-k);
+      var g=ctx.createRadialGradient(e.x,e.y,r*0.55,e.x,e.y,r);
+      g.addColorStop(0,'rgba(236,235,255,0)');g.addColorStop(.7,'rgba(190,192,255,'+(0.35*a).toFixed(3)+')');g.addColorStop(1,'rgba(140,143,255,0)');
+      ctx.fillStyle=g;ctx.fillRect(e.x-r,e.y-r,r*2,r*2);
+    });
   }
   function boucle(t){dessine(t);raf=visible&&!document.hidden?requestAnimationFrame(boucle):0}
   function relance(){if(!raf&&!reduce&&visible&&!document.hidden)raf=requestAnimationFrame(boucle)}
@@ -686,7 +683,7 @@ footer a{text-decoration:none;color:var(--texte)}footer a:hover{text-decoration:
     if(e.target.closest('a,button'))return;
     var r=canvas.getBoundingClientRect();
     m.tx=e.clientX-r.left;m.ty=e.clientY-r.top;m.actif=true;m.derniere=performance.now();
-    ondes.push({x:m.tx,y:m.ty,t0:performance.now()});vu();
+    eclats.push({x:m.tx,y:m.ty,t0:performance.now()});vu();
   });
   hero.addEventListener('pointermove',function once(){setTimeout(vu,2500);hero.removeEventListener('pointermove',once)});
 
