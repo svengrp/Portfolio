@@ -171,8 +171,13 @@ h4{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:.01em}
 .regles li::before{content:"";width:6px;height:6px;border:1.5px solid var(--sage);border-radius:50%}
 
 /* PROJECT: ENOSIS */
-.enosis{margin-top:clamp(24px,3vw,40px);display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);background:var(--paper);border:1px solid var(--line);border-radius:24px;overflow:hidden}
-.enosis-mark{background:#161A1B;color:#EDE7DF;padding:clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:space-between;gap:48px;min-height:clamp(300px,34vw,460px);position:relative;overflow:hidden}
+.p-eno{--accent:#A9803F;margin-top:clamp(24px,3vw,40px)}
+.p-eno .stage{position:relative;overflow:hidden;background:radial-gradient(70% 60% at 80% 10%,rgba(169,128,63,.2),transparent 65%),#161A1B}
+.p-eno .browser{position:relative;z-index:1;border-color:rgba(255,255,255,.08);box-shadow:0 40px 80px -40px rgba(0,0,0,.8)}
+.p-eno .live{background:#F2E8D6;color:#6E5126}
+.p-eno .live::before{background:#A9803F}
+.p-eno .btn-dark:hover{background:#7C5C2C}
+.eno-logo{width:.82em;height:1.02em;flex-shrink:0;background:#A9803F;-webkit-mask:url(/assets/enosis-logo.png) center/contain no-repeat;mask:url(/assets/enosis-logo.png) center/contain no-repeat}
 /* Chaque projet a sa couleur et son mouvement */
 .project{--accent:var(--sage)}
 .project-body li::before,.p-hive .live::before,.p-neo .live::before{background:var(--accent)}
@@ -204,12 +209,6 @@ h4{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:.01em}
 .p-neo .regles li::before{border-color:#E2733F}
 
 .enosis-defile{position:absolute;left:0;top:50%;transform:translate(calc(-12% - var(--sx,0) * 22%),-50%);white-space:nowrap;font-family:var(--sans);font-weight:700;font-size:clamp(120px,15vw,220px);letter-spacing:.06em;text-transform:uppercase;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(237,231,223,.16);pointer-events:none;will-change:transform}
-.enosis-word{font-family:var(--sans);font-weight:600;font-size:clamp(38px,3.6vw,56px);letter-spacing:.12em;line-height:1;position:relative;text-transform:uppercase}
-.enosis-tag{position:relative;font-size:15px;color:#BDB5AA;max-width:22em}
-.enosis-logo{position:relative;align-self:flex-start;width:auto;height:clamp(120px,13vw,190px);transition:transform .8s var(--ease)}
-.enosis:hover .enosis-logo{transform:rotate(-4deg) scale(1.03)}
-.enosis-bottom{position:relative;display:flex;flex-direction:column;gap:14px}
-.enosis-info{padding:clamp(28px,4vw,56px);display:flex;flex-direction:column;gap:28px}
 .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
 .cols p{margin:0;font-size:15.5px;color:var(--slate)}
 
@@ -266,7 +265,7 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
 
 /* RESPONSIVE */
 @media (max-width:1024px){
-  .project-top,.enosis{grid-template-columns:1fr}
+  .project-top{grid-template-columns:1fr}
   .project-body{grid-template-columns:repeat(2,minmax(0,1fr))}
   .etapes{columns:2}
   .about{grid-template-columns:1fr}
@@ -288,9 +287,7 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
   .step{padding-top:0}
   .step-dot{left:-40px;top:2px}
   .actions .btn,.contact-actions .btn{flex:1 1 100%}
-  .enosis-mark{min-height:240px;gap:32px}
-  .enosis-logo{height:110px}
-  footer nav{gap:20px}
+    footer nav{gap:20px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
@@ -484,32 +481,58 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
         </div>
       </article>
 
-      <article class="enosis reveal" aria-labelledby="enosis-title">
-        <div class="enosis-mark"><span class="enosis-defile" aria-hidden="true">Enosis Enosis Enosis Enosis</span>
-          <img class="enosis-logo" src="/assets/enosis-logo.png" alt="Logo Enosis" width="321" height="400" loading="lazy">
-          <div class="enosis-bottom">
-          <span class="enosis-word" aria-hidden="true">Enosis</span>
-          <p class="enosis-tag">Une marque de vêtements pensée pour celles et ceux qui s'entraînent en salle.</p>
+      <article class="project p-eno reveal" aria-labelledby="enosis-title">
+        <div class="project-top">
+          <div class="stage"><span class="enosis-defile" aria-hidden="true">Enosis Enosis Enosis Enosis</span>
+            <div class="browser" aria-hidden="true">
+              <div class="bar"><b></b><b></b><b></b><em>enosis.shop</em></div>
+              <img class="app-shot" src="/assets/enosis-accueil.jpg" alt="" width="1440" height="900" loading="lazy">
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="meta"><span class="live">En ligne</span><span>Marque et boutique en ligne, 2026</span></div>
+            <h3 id="enosis-title" class="titre-logo"><span class="eno-logo" aria-hidden="true"></span>Enosis</h3>
+            <p class="intro">Ma marque de vêtements de musculation. J'ai conçu et développé moi-même sa boutique, enosis.shop : un front-end sur mesure en Hydrogen, le framework React de Shopify, hébergé sur Oxygen.</p>
+            <p class="second">Shopify garde le catalogue, les stocks et le paiement ; tout ce que voit le client, des pages produit au compte client, est mon code, en quatre langues.</p>
+            <div class="actions">
+              <a class="btn btn-dark" href="https://enosis.shop" target="_blank" rel="noopener">Ouvrir enosis.shop</a>
+            </div>
           </div>
         </div>
-        <div class="enosis-info">
-          <div class="meta"><span>Marque e-commerce</span><span>Musculation</span></div>
-          <h3 id="enosis-title">Enosis</h3>
-          <p class="intro" style="margin:0">Ma marque de vêtements de musculation, que je développe de la boutique en ligne jusqu'à la stratégie de lancement.</p>
-          <div class="cols">
-            <div>
-              <h4>Concept</h4>
-              <p>Des vêtements taillés pour l'entraînement en musculation, avec une identité forte pour une communauté de pratiquants.</p>
-            </div>
-            <div>
-              <h4>Conception</h4>
-              <p>Boutique Shopify, parcours d'achat et emails automatisés : adresse sans réponse pour les commandes, adresse de la marque pour la relation client.</p>
-            </div>
-            <div>
-              <h4>Objectifs</h4>
-              <p>Lancer la marque sur TikTok avec des créateurs de la niche muscu, l'envoi de pièces en échange de contenu et les publications des premiers clients.</p>
-            </div>
+
+        <div class="project-body">
+          <div>
+            <h4>Boutique sur mesure</h4>
+            <ul>
+              <li><strong>Pages produit, collections filtrables, panier et recherche</strong>, branchés sur l'API Storefront de Shopify en GraphQL</li>
+              <li><strong>Compte client</strong> : connexion, commandes, adresses et profil</li>
+              <li>Site en <strong>français, anglais, allemand et italien</strong>, une adresse par langue</li>
+              <li>Sitemap, robots.txt et pages légales générés depuis Shopify</li>
+            </ul>
           </div>
+          <div>
+            <h4>Lancement</h4>
+            <ul>
+              <li><strong>Drop 01</strong> : liste d'attente avant la sortie, et « Me prévenir » sur chaque produit</li>
+              <li>Inscriptions envoyées à Shopify par l'<strong>API Admin</strong>, avec une étiquette par produit pour prévenir les bonnes personnes</li>
+              <li>10 % sur la première commande contre l'inscription à la newsletter</li>
+              <li>Ensuite, TikTok avec des créateurs de la niche muscu et les premiers clients</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Direction artistique</h4>
+            <ul>
+              <li>Une identité éditoriale sombre autour de la chouette, symbole de la marque</li>
+              <li><strong>Défilement fluide</strong> (Lenis) et apparitions au défilement (GSAP), chargés seulement dans le navigateur</li>
+              <li>Typographie française soignée, jusqu'aux espaces insécables</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div><h4>Front-end</h4><div class="chips"><span style="--c:#5C6AC4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 7.5v9M15 7.5v9M9 12h6"/></svg>Hydrogen</span><span style="--c:#CA4245"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.118 5.466a2.306 2.306 0 00-.623.08c-.278.067-.702.332-.953.583-.41.423-.49.609-.662 1.469-.08.423.41 1.43.847 1.734.45.317 1.085.502 2.065.608 1.429.16 1.84.636 1.84 2.197 0 1.377-.385 1.747-1.96 1.906-1.707.172-2.58.834-2.765 2.117-.106.781.41 1.76 1.125 2.091 1.627.768 3.15-.198 3.467-2.196.211-1.284.622-1.642 1.998-1.747 1.588-.133 2.409-.675 2.713-1.787.278-1.02-.304-2.157-1.297-2.554-.264-.106-.873-.238-1.35-.291-1.495-.16-1.879-.424-2.038-1.39-.225-1.337-.317-1.562-.794-2.09a2.174 2.174 0 00-1.613-.73zm-4.785 4.36a2.145 2.145 0 00-.497.048c-1.469.318-2.17 2.051-1.35 3.295 1.178 1.774 3.944.953 3.97-1.177.012-1.193-.98-2.143-2.123-2.166zM2.089 14.19a2.22 2.22 0 00-.427.052c-2.158.476-2.237 3.626-.106 4.182.53.145.582.145 1.111.013 1.191-.318 1.866-1.456 1.549-2.607-.278-1.02-1.144-1.664-2.127-1.64zm19.824.008c-.233.002-.477.058-.784.162-1.39.477-1.866 2.092-.98 3.336.557.794 1.96 1.058 2.82.516 1.416-.874 1.363-3.057-.093-3.746-.38-.186-.663-.271-.963-.268z"/></svg>React Router</span><span style="--c:#3178C6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 11h6M11 11v7M19 12.5c-.5-1-3.5-1.3-3.5.6 0 1.8 3.5 1 3.5 3 0 2-3 1.7-3.7.6"/></svg>TypeScript</span><span style="--c:#E10098"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.8 4.5v9L12 21l-7.8-4.5v-9z"/><path d="M12 3l7.8 13.5H4.2z"/></svg>GraphQL</span></div></div>
+          <div><h4>Commerce</h4><div class="chips"><span style="--c:#5E8E3E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>Shopify</span><span style="--c:#5C6AC4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/></svg>Oxygen</span></div></div>
+          <div><h4>Motion</h4><div class="chips"><span style="--c:#88CE02"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c3-8 6-12 16-12"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="6" r="1.6"/></svg>GSAP</span><span style="--c:#FF98A2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12c2.5-4 5-4 7.5 0s5 4 7.5 0 3.5-3 5-2"/></svg>Lenis</span></div></div>
         </div>
       </article>
 
@@ -697,7 +720,7 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
     marques.forEach(function(el){el.classList.toggle('on',parseFloat(el.style.getPropertyValue('--i'))/10<=p+0.001)});
   }
   window.addEventListener('resize',piste);
-  var enosis=document.querySelector('.enosis-mark');
+  var enosis=document.querySelector('.p-eno .stage');
   function defile(){
     if(!enosis||reduce)return;
     var r=enosis.getBoundingClientRect(),vh=window.innerHeight;
