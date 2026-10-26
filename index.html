@@ -177,6 +177,7 @@ h4{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:.01em}
 .p-eno .live{background:#F2E8D6;color:#6E5126}
 .p-eno .live::before{background:#A9803F}
 .p-eno .btn-dark:hover{background:#7C5C2C}
+.p-eno .project-body{grid-template-columns:repeat(2,minmax(0,1fr))}
 .eno-logo{width:.82em;height:1.02em;flex-shrink:0;background:currentColor;-webkit-mask:url(/assets/enosis-logo.png) center/contain no-repeat;mask:url(/assets/enosis-logo.png) center/contain no-repeat}
 /* Chaque projet a sa couleur et son mouvement */
 .project{--accent:var(--sage)}
@@ -278,7 +279,7 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
   .hero-grid{flex-direction:column;align-items:flex-start}
   .cue{display:none}
   .hero-actions .btn{flex:1 1 auto}
-  .project-body,.stack,.cols{grid-template-columns:1fr}
+  .project-body,.p-eno .project-body,.stack,.cols{grid-template-columns:1fr}
   .etapes{columns:1;margin-top:0}
   .profil{display:none}
   .timeline{grid-template-columns:1fr;gap:36px;padding-left:40px}
@@ -492,7 +493,7 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
           <div class="project-info">
             <div class="meta"><span class="live">En ligne</span><span>Marque et boutique en ligne, 2026</span></div>
             <h3 id="enosis-title" class="titre-logo"><span class="eno-logo" aria-hidden="true"></span>Enosis</h3>
-            <p class="intro">Ma marque de vêtements de musculation. J'ai conçu et développé moi-même sa boutique, enosis.shop : un front-end sur mesure en Hydrogen, le framework React de Shopify, hébergé sur Oxygen.</p>
+            <p class="intro">Ma marque de vêtements de musculation, que je mène de bout en bout : de la production avec un fabricant en Chine jusqu'à sa boutique, enosis.shop, que j'ai conçue et développée moi-même en Hydrogen, le framework React de Shopify.</p>
             <p class="second">Shopify garde le catalogue, les stocks et le paiement ; tout ce que voit le client, des pages produit au compte client, est mon code, en quatre langues.</p>
             <div class="actions">
               <a class="btn btn-dark" href="https://enosis.shop" target="_blank" rel="noopener">Ouvrir enosis.shop</a>
@@ -501,6 +502,15 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
         </div>
 
         <div class="project-body">
+          <div>
+            <h4>Production</h4>
+            <ul>
+              <li><strong>Fabricant en Chine</strong> trouvé sur Made-in-China.com, choisi parce qu'il produit déjà pour de grandes marques</li>
+              <li><strong>Échanges directs avec l'usine</strong>, à l'international, du premier contact à la commande</li>
+              <li>Une vraie production de qualité, <strong>pas du dropshipping</strong></li>
+              <li>Coût de revient calculé pièce par pièce, emballage et envoi compris</li>
+            </ul>
+          </div>
           <div>
             <h4>Boutique sur mesure</h4>
             <ul>
