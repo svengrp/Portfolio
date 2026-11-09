@@ -59,26 +59,37 @@ a{color:inherit}
 .menu-open .nav{color:var(--mist);background:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
 
 /* HERO */
-.hero{position:relative;height:100vh;height:100svh;min-height:560px;color:#fff}
-.hero-pin{position:relative;height:100%;overflow:hidden;background:var(--ink)}
-.hero-media{position:absolute;inset:-6% 0 0 0;will-change:transform}
-.hero-media svg{display:block;width:100%;height:100%}
-.couche{animation:poser 1.8s var(--ease) both;animation-delay:calc(.1s + var(--k) * .12s)}
-.plan{will-change:transform}
-.soleil{animation:fade-in 2.4s .2s both}
-.brume{transform-box:fill-box;animation:brume 22s ease-in-out infinite alternate}
-.couche:nth-child(odd) .brume{animation-duration:28s;animation-direction:alternate-reverse}
-@keyframes poser{from{opacity:0;transform:translateY(70px)}to{opacity:1;transform:none}}
-@keyframes brume{from{transform:translateX(-60px)}to{transform:translateX(60px)}}
+.hero{position:relative;height:250vh;height:250svh;min-height:1200px;color:#fff}
+/* La scène reste fixe pendant qu'on la traverse */
+.hero-pin{position:sticky;top:0;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:#151a1d}
+.hero-media{position:absolute;inset:0;perspective:1800px;perspective-origin:50% 40%}
+/* Pile 3D : chaque couche est une image Higgsfield détourée, placée à sa profondeur */
+.pile{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.calque{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.calque img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:55% 50%;animation:poser 1.8s var(--ease) both;animation-delay:calc(.1s + var(--k,0) * .12s)}
+.ciel-calque{border-radius:var(--arrondi,0px);overflow:hidden;box-shadow:0 60px 120px -40px rgba(0,0,0,.7)}
+.ciel-calque img{animation:fade-in 1.6s both}
+.calque:nth-child(2){--k:1}.nuages-bas{--k:2}.avant-calque{--k:3}
+/* L'éperon du premier plan est posé bas : il ne cache que le pied du titre */
+.avant-calque img{top:24%;object-position:40% 100%}
+.nuages-bas img{object-position:50% 0;top:auto;height:62%;bottom:-6%}
+/* Mer de nuages qui monte à la fin : l'image, puis un fondu vers la couleur de la page */
+.nuages-montants{position:absolute;left:0;right:0;top:0;height:200%;transform:translateY(50%);will-change:transform;
+  background:linear-gradient(180deg,rgba(0,0,0,0) 0,rgba(0,0,0,0) 38%,#cdb6bb 47%,#e2d8d8 58%,var(--mist) 70%)}
+.nuages-montants img{position:absolute;left:0;top:0;width:100%;height:50%;object-fit:cover;object-position:50% 0;-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 100%);mask-image:linear-gradient(180deg,#000 70%,transparent 100%)}
+@keyframes poser{from{opacity:0;transform:translateY(60px)}to{opacity:1;transform:none}}
 @keyframes fade-in{from{opacity:0}to{opacity:1}}
-.hero-pin::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,18,20,.5) 0%,rgba(15,18,20,0) 24%,rgba(15,18,20,0) 42%,rgba(15,18,20,.82) 100%);pointer-events:none}
-.hero-content{position:absolute;z-index:2;left:0;right:0;bottom:clamp(40px,9vh,104px)}
+/* Lisibilité du titre */
+.voile-calque{background:linear-gradient(180deg,rgba(15,18,20,0) 0%,rgba(15,18,20,0) 42%,rgba(15,18,20,.4) 76%,rgba(15,18,20,.55) 100%);border-radius:var(--arrondi,0px)}
+.titre-copie{position:absolute;text-shadow:0 2px 30px rgba(20,24,30,.35)}
+.hero-content{position:absolute;z-index:4;left:0;right:0;bottom:clamp(40px,9vh,104px)}
 .hero-grid{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
-.hero h1{margin:0;font-family:var(--serif);font-weight:500;font-size:clamp(40px,6.2vw,96px);line-height:1;letter-spacing:-.04em;max-width:none}
-.hero h1 .line{display:block;padding-bottom:.06em}
-.hero h1 .line span{display:block;animation:net 1.3s .5s var(--ease) both}
-.hero h1 .line:nth-child(2) span{animation-delay:.65s}
-.hero h1 .line:nth-child(3) span{animation-delay:.8s}
+.hero h1,.titre-copie{margin:0;font-family:var(--serif);font-weight:500;font-size:clamp(40px,6.2vw,96px);line-height:1;letter-spacing:-.04em;max-width:none}
+.hero h1 .line,.titre-copie .line{display:block;padding-bottom:.06em}
+.hero h1 .line span,.titre-copie .line span{display:block;animation:net 1.3s .5s var(--ease) both}
+.hero h1 .line:nth-child(2) span,.titre-copie .line:nth-child(2) span{animation-delay:.65s}
+.hero h1 .line:nth-child(3) span,.titre-copie .line:nth-child(3) span{animation-delay:.8s}
+.hero h1{opacity:0}
 @keyframes net{from{opacity:0;filter:blur(14px)}to{opacity:1;filter:blur(0)}}
 .hero-sub{margin:28px 0 0;max-width:34em;font-size:clamp(16px,1.4vw,19px);font-weight:300;color:rgba(255,255,255,.86);animation:fade-in 1.2s 1.1s var(--ease) both}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px;animation:fade-in 1.2s 1.25s var(--ease) both}
@@ -96,6 +107,7 @@ a{color:inherit}
 
 /* SECTIONS */
 section{position:relative}
+#projets{z-index:5;margin-top:-55vh;margin-top:-55svh;padding-top:clamp(40px,6vw,80px);background:linear-gradient(180deg,rgba(237,239,234,0) 0,rgba(237,239,234,.75) 22svh,var(--mist) 40svh)}
 .sec{padding:clamp(88px,12vw,160px) 0 0}
 .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:clamp(36px,5vw,64px)}
 .kicker{font-size:15px;color:var(--sage);font-weight:500;margin:0 0 10px}
@@ -291,6 +303,8 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
     footer nav{gap:20px}
 }
 @media (prefers-reduced-motion:reduce){
+  .hero{height:100vh;height:100svh;min-height:560px}
+  #projets{margin-top:0;padding-top:clamp(88px,12vw,160px);background:none}
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
   html{scroll-behavior:auto}
   .reveal{opacity:1;transform:none}
@@ -334,7 +348,17 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
 <main id="top">
   <section class="hero" id="hero" aria-label="Accueil">
     <div class="hero-pin">
-    <div class="hero-media" id="heroMedia"><svg viewBox="0 0 1920 1120" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Chaîne de montagnes au lever du jour"><defs><linearGradient id="hero-s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#26344A"/><stop offset=".45" stop-color="#8E8795"/><stop offset=".62" stop-color="#E2B99A"/><stop offset=".75" stop-color="#F0C8A2"/></linearGradient><radialGradient id="hero-g" cx=".62" cy=".6" r=".3"><stop offset="0" stop-color="#FFE3B8" stop-opacity=".9"/><stop offset="1" stop-color="#FFE3B8" stop-opacity="0"/></radialGradient><linearGradient id="hero-l0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A9A4AE"/><stop offset=".25" stop-color="#7C7E90"/><stop offset="1" stop-color="#7C7E90"/></linearGradient><linearGradient id="hero-l1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A8691"/><stop offset=".25" stop-color="#5E6272"/><stop offset="1" stop-color="#5E6272"/></linearGradient><linearGradient id="hero-l2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5F646A"/><stop offset=".25" stop-color="#424B55"/><stop offset="1" stop-color="#424B55"/></linearGradient><linearGradient id="hero-l3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#343C3F"/><stop offset=".25" stop-color="#2A3337"/><stop offset="1" stop-color="#2A3337"/></linearGradient><linearGradient id="hero-l4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1D2224"/><stop offset=".25" stop-color="#1A2021"/><stop offset="1" stop-color="#1A2021"/></linearGradient><linearGradient id="hero-m" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8D6C8" stop-opacity="0"/><stop offset=".5" stop-color="#E8D6C8" stop-opacity=".35"/><stop offset="1" stop-color="#E8D6C8" stop-opacity="0"/></linearGradient></defs><rect width="1920" height="1120" fill="url(#hero-s)"/><rect class="soleil" width="1920" height="1120" fill="url(#hero-g)"/><g class="couche" style="--k:0"><g class="plan" data-z="0.12"><polygon points="0,1120 0,550 18,538 35,527 53,523 70,518 88,517 106,524 123,521 141,505 159,501 176,510 194,517 211,532 229,551 247,544 264,525 282,527 299,520 317,501 335,498 352,500 370,479 388,467 405,470 423,465 440,466 458,479 476,484 493,476 511,478 528,483 546,488 564,500 581,517 599,525 617,530 634,533 652,540 669,549 687,554 705,564 722,580 740,580 757,574 775,577 793,577 810,571 828,580 846,586 863,570 881,562 898,563 916,555 934,555 951,581 969,593 986,597 1004,615 1022,636 1039,643 1057,669 1074,698 1092,704 1110,703 1127,704 1145,701 1163,703 1180,718 1198,731 1215,730 1233,729 1251,730 1268,730 1286,733 1303,735 1321,735 1339,720 1356,690 1374,667 1392,662 1409,652 1427,657 1444,676 1462,681 1480,673 1497,686 1515,697 1532,695 1550,704 1568,707 1585,683 1603,661 1621,658 1638,646 1656,634 1673,642 1691,644 1709,626 1726,620 1744,614 1761,596 1779,580 1797,565 1814,537 1832,508 1850,481 1867,465 1885,457 1902,459 1920,469 1920,1120" fill="url(#hero-l0)"/><rect class="brume" y="582" width="1920" height="134" fill="url(#hero-m)"/></g></g><g class="couche" style="--k:1"><g class="plan" data-z="0.28"><polygon points="0,1120 0,787 18,796 35,809 53,811 70,818 88,839 106,845 123,836 141,828 159,816 176,794 194,784 211,785 229,774 247,758 264,743 282,730 299,723 317,725 335,728 352,723 370,704 388,683 405,671 423,666 440,665 458,670 476,661 493,638 511,625 528,621 546,613 564,611 581,613 599,593 617,564 634,548 652,539 669,521 687,518 705,510 722,490 740,481 757,488 775,493 793,502 810,520 828,531 846,533 863,547 881,569 898,588 916,605 934,622 951,634 969,639 986,644 1004,653 1022,664 1039,669 1057,677 1074,687 1092,689 1110,688 1127,695 1145,692 1163,681 1180,681 1198,681 1215,665 1233,655 1251,654 1268,645 1286,643 1303,664 1321,683 1339,687 1356,697 1374,704 1392,700 1409,706 1427,718 1444,714 1462,705 1480,697 1497,688 1515,681 1532,690 1550,704 1568,709 1585,700 1603,691 1621,688 1638,686 1656,686 1673,690 1691,685 1709,668 1726,659 1744,671 1761,690 1779,716 1797,751 1814,766 1832,768 1850,783 1867,799 1885,803 1902,816 1920,826 1920,1120" fill="url(#hero-l1)"/><rect class="brume" y="672" width="1920" height="134" fill="url(#hero-m)"/></g></g><g class="couche" style="--k:2"><g class="plan" data-z="0.48"><polygon points="0,1120 0,810 18,807 35,802 53,799 70,800 88,800 106,800 123,798 141,795 159,794 176,797 194,802 211,811 229,819 247,822 264,820 282,820 299,823 317,832 335,843 352,848 370,847 388,842 405,839 423,838 440,845 458,850 476,848 493,840 511,833 528,825 546,822 564,821 581,815 599,803 617,786 634,769 652,758 669,756 687,755 705,752 722,746 740,742 757,739 775,745 793,751 810,753 828,749 846,738 863,723 881,712 898,707 916,703 934,700 951,702 969,698 986,693 1004,690 1022,687 1039,684 1057,678 1074,668 1092,655 1110,646 1127,641 1145,640 1163,645 1180,655 1198,666 1215,680 1233,691 1251,701 1268,710 1286,718 1303,722 1321,724 1339,724 1356,722 1374,720 1392,725 1409,734 1427,744 1444,754 1462,757 1480,755 1497,751 1515,746 1532,741 1550,739 1568,733 1585,723 1603,713 1621,715 1638,725 1656,747 1673,770 1691,787 1709,797 1726,803 1744,807 1761,813 1779,822 1797,826 1814,823 1832,817 1850,813 1867,812 1885,820 1902,829 1920,834 1920,1120" fill="url(#hero-l2)"/><rect class="brume" y="762" width="1920" height="134" fill="url(#hero-m)"/></g></g><g class="couche" style="--k:3"><g class="plan" data-z="0.72"><polygon points="0,1120 0,826 18,826 35,827 53,837 70,854 88,872 106,886 123,895 141,900 159,903 176,911 194,918 211,920 229,916 247,907 264,895 282,893 299,898 317,905 335,911 352,913 370,910 388,908 405,908 423,909 440,908 458,904 476,896 493,887 511,886 528,887 546,891 564,897 581,901 599,901 617,902 634,901 652,900 669,898 687,894 705,887 722,885 740,884 757,885 775,888 793,893 810,898 828,903 846,908 863,909 881,908 898,908 916,907 934,905 951,910 969,911 986,909 1004,906 1022,906 1039,909 1057,915 1074,920 1092,921 1110,917 1127,911 1145,905 1163,903 1180,904 1198,904 1215,897 1233,887 1251,877 1268,869 1286,868 1303,867 1321,861 1339,851 1356,839 1374,825 1392,823 1409,821 1427,817 1444,809 1462,797 1480,783 1497,774 1515,772 1532,773 1550,772 1568,768 1585,761 1603,759 1621,765 1638,774 1656,783 1673,788 1691,787 1709,782 1726,781 1744,783 1761,790 1779,797 1797,803 1814,806 1832,812 1850,821 1867,829 1885,838 1902,845 1920,848 1920,1120" fill="url(#hero-l3)"/></g></g><g class="couche" style="--k:4"><g class="plan" data-z="1"><polygon points="0,1120 0,969 18,972 35,974 53,975 70,974 88,971 106,968 123,964 141,960 159,957 176,958 194,959 211,962 229,965 247,968 264,970 282,972 299,972 317,971 335,969 352,966 370,961 388,959 405,958 423,960 440,962 458,964 476,967 493,968 511,970 528,970 546,968 564,966 581,963 599,959 617,958 634,957 652,957 669,958 687,960 705,965 722,969 740,974 757,977 775,980 793,982 810,984 828,987 846,989 863,994 881,998 898,1002 916,1006 934,1009 951,1012 969,1014 986,1015 1004,1015 1022,1014 1039,1011 1057,1010 1074,1008 1092,1005 1110,1001 1127,998 1145,995 1163,993 1180,991 1198,990 1215,989 1233,987 1251,986 1268,984 1286,984 1303,984 1321,984 1339,983 1356,981 1374,979 1392,977 1409,975 1427,973 1444,971 1462,969 1480,966 1497,965 1515,964 1532,962 1550,959 1568,955 1585,951 1603,947 1621,943 1638,940 1656,938 1673,937 1691,939 1709,942 1726,948 1744,954 1761,961 1779,967 1797,971 1814,973 1832,975 1850,975 1867,975 1885,975 1902,975 1920,975 1920,1120" fill="url(#hero-l4)"/></g></g></svg></div>
+    <div class="hero-media" id="heroMedia" role="img" aria-label="Les Alpes à l'aube au-dessus d'une mer de nuages">
+      <div class="pile" id="pile">
+        <div class="calque ciel-calque" data-z="0.05" data-d="0"><img src="/assets/scene/ciel.webp" alt="" fetchpriority="high" decoding="async"></div>
+        <div class="calque" data-z="0.4" data-d="1"><img src="/assets/scene/cretes.webp" alt="" decoding="async"></div>
+        <div class="calque nuages-bas" data-z="0.55" data-d="1.6"><img src="/assets/scene/nuages.webp" alt="" decoding="async"></div>
+        <div class="calque voile-calque" data-z="0.55" data-d="1.8"></div>
+        <div class="calque titre-calque" data-z="0.62" data-d="2.3" aria-hidden="true"><div class="titre-copie" id="titreCopie"></div></div>
+        <div class="calque avant-calque" data-z="1" data-d="3.2"><img src="/assets/scene/avant.webp" alt="" decoding="async"></div>
+      </div>
+      <div class="nuages-montants"><img src="/assets/scene/nuages.webp" alt="" decoding="async"></div>
+    </div>
     <div class="hero-content">
       <div class="wrap hero-grid">
         <div>
@@ -679,22 +703,63 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
   var ticking=false;
   function onScroll(){
     var y=window.scrollY;
-    nav.classList.toggle('scrolled',y>window.innerHeight*0.72);
+    avance();
+    nav.classList.toggle('scrolled',prog>0.86||y>hero.offsetHeight-window.innerHeight*0.25);
     sy=y;piste();defile();
     ticking=false;
   }
-  // Décor : chaque chaîne bouge selon sa profondeur, la lumière du soleil suit la souris.
-  var plans=[].slice.call(media.querySelectorAll('.plan')),soleil=document.getElementById('hero-g');
-  var cible={x:0,y:0},cur={x:0,y:0},sy=0,vivant=true,rafD=0;
+  // Scène en couches (images Higgsfield détourées). Trois temps au défilement :
+  // 1. diorama : le paysage se détache, s'incline et ses couches s'écartent en 3D ;
+  // 2. plongée : on traverse les couches, le premier plan passe devant le titre ;
+  // 3. la mer de nuages monte, et les projets arrivent par-dessus.
+  var pile=document.getElementById('pile'),calques=[].slice.call(pile.querySelectorAll('.calque[data-d]'));
+  var nuagesM=media.querySelector('.nuages-montants'),titreC=pile.querySelector('.titre-calque'),contenu=hero.querySelector('.hero-content');
+  var h1=hero.querySelector('h1'),copie=document.getElementById('titreCopie');
+  var cible={x:0,y:0},cur={x:0,y:0},sy=0,vivant=true,rafD=0,prog=0;
+  copie.innerHTML=h1.innerHTML;
+  // La copie visible se cale sur le vrai titre (resté dans la page, invisible) quand la scène est à plat
+  function caleTitre(){
+    var t=pile.style.transform;pile.style.transform='none';
+    calques.forEach(function(c){c.dataset.t=c.style.transform;c.style.transform='none'});
+    var r=h1.getBoundingClientRect(),m=copie.parentNode.getBoundingClientRect();
+    copie.style.left=(r.left-m.left)+'px';copie.style.top=(r.top-m.top)+'px';copie.style.width=r.width+'px';
+    pile.style.transform=t;calques.forEach(function(c){c.style.transform=c.dataset.t});
+  }
+  caleTitre();window.addEventListener('resize',caleTitre);
+  if(document.fonts)document.fonts.ready.then(caleTitre);
+  function avance(){
+    var course=hero.offsetHeight-window.innerHeight;
+    prog=reduce||course<=0?0:Math.min(1,Math.max(0,window.scrollY/course));
+  }
+  function lisse(t){t=Math.min(1,Math.max(0,t));return t*t*(3-2*t)}
   function decor(t){
     if(!survol){cible.x=0.18*Math.sin(t*0.00018);cible.y=0.1*Math.sin(t*0.00013)}
     cur.x+=(cible.x-cur.x)*0.05;cur.y+=(cible.y-cur.y)*0.05;
-    plans.forEach(function(p){
-      var z=parseFloat(p.getAttribute('data-z'));
-      p.style.transform='translate('+(-cur.x*z*48).toFixed(2)+'px,'+(-cur.y*z*18+Math.min(sy,window.innerHeight)*(0.5-z*0.42)).toFixed(2)+'px)';
+    var vw=window.innerWidth,vh=window.innerHeight,p=prog;
+    var d1=lisse(p/0.36);                 // diorama
+    var d2=lisse((p-0.4)/0.4);            // plongée
+    var etroit=vw<760,ecart=Math.min(150,vw*0.09)*(etroit?0.6:1);
+    var ouvert=d1*(1-d2);                 // 1 = couches écartées
+    // La pile : inclinaison du diorama, puis on fonce dedans
+    var rx=ouvert*(etroit?12:17)+cur.y*-3,ry=ouvert*(etroit?-8:-14)+cur.x*4;
+    var sc=(1-ouvert*(etroit?0.2:0.3))*(1+d2*0.55);
+    pile.style.transform='translate3d(0,'+(ouvert*vh*0.04).toFixed(1)+'px,'+(d2*260).toFixed(1)+'px) rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg) scale('+sc.toFixed(4)+')';
+    pile.style.setProperty('--arrondi',(ouvert*22).toFixed(1)+'px');
+    calques.forEach(function(c){
+      var d=parseFloat(c.getAttribute('data-d')),z=parseFloat(c.getAttribute('data-z')||0);
+      var x=-cur.x*z*40*(1-ouvert),y=-cur.y*z*16*(1-ouvert);
+      // Plongée : les couches proches montent et grandissent plus vite que les lointaines
+      y-=Math.pow(z,1.5)*d2*vh*0.5;
+      var s2=1+z*d2*0.5;
+      c.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,'+(d*ecart*ouvert).toFixed(1)+'px) scale('+s2.toFixed(4)+')';
     });
-    soleil.setAttribute('cx',(0.62+cur.x*0.22).toFixed(4));
-    soleil.setAttribute('cy',(0.6+cur.y*0.14).toFixed(4));
+    // La mer de nuages monte pendant la plongée et recouvre tout
+    var n=lisse((p-0.48)/0.4);
+    nuagesM.style.transform='translate3d(0,'+(50-n*66).toFixed(2)+'%,0)';
+    // Le titre s'efface pendant que l'éperon monte devant lui
+    titreC.style.opacity=(1-lisse((d2-0.12)/0.3)).toFixed(3);
+    contenu.style.opacity=Math.max(0,1-p/0.14).toFixed(3);
+    contenu.style.visibility=p>0.14?'hidden':'';
     rafD=vivant&&!document.hidden?requestAnimationFrame(decor):0;
   }
   function relance(){if(!rafD&&!reduce&&vivant&&!document.hidden)rafD=requestAnimationFrame(decor)}
