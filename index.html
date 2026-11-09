@@ -123,8 +123,21 @@ h4{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:.01em}
 .project-top{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
 .stage{background:#E3E6E0;padding:clamp(20px,4vw,48px);display:flex;align-items:center}
 .stage{perspective:1400px}
-.browser{position:relative;width:100%;border-radius:14px;overflow:hidden;box-shadow:0 40px 70px -40px rgba(20,24,26,.55);border:1px solid rgba(0,0,0,.08);transform:translateY(var(--ty,0)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .7s var(--ease)}
-.project:hover .browser{--ty:-6px}
+.browser{position:relative;width:100%;border-radius:14px;overflow:hidden;box-shadow:0 40px 70px -40px rgba(20,24,26,.55);border:1px solid rgba(0,0,0,.08)}
+/* Capture : légère inclinaison sous la souris */
+.vitrine{position:relative;width:100%;transform:translateY(var(--ty,0)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .7s var(--ease)}
+.project:hover .vitrine{--ty:-6px}
+/* Détail technique, replié par défaut */
+.detail{border-top:1px solid var(--line)}
+.detail summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:clamp(18px,2.4vw,26px) clamp(28px,4vw,56px);font-weight:500;font-size:15.5px;color:var(--ink);transition:background .25s}
+.detail summary::-webkit-details-marker{display:none}
+.detail summary:hover{background:rgba(29,34,36,.035)}
+.detail summary i{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);position:relative;flex-shrink:0;transition:transform .35s var(--ease),border-color .25s}
+.detail summary i::before,.detail summary i::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.5px;background:currentColor;transform:translate(-50%,-50%)}
+.detail summary i::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .35s var(--ease)}
+.detail[open] summary i::after{transform:translate(-50%,-50%) rotate(0deg)}
+.detail summary:hover i{border-color:var(--ink)}
+.detail-in > :first-child{border-top:1px solid var(--line)}
 .bar{height:38px;display:flex;align-items:center;gap:7px;padding:0 14px;background:#FFFFFF;border-bottom:1px solid #E3E6EB}
 .bar b{width:10px;height:10px;border-radius:50%;background:#D9DDE3}
 .bar em{margin-left:12px;flex:1;height:22px;border-radius:6px;background:#F0F2F5;color:#5D6470;font-style:normal;font-size:12px;display:flex;align-items:center;padding-left:12px}
@@ -256,16 +269,63 @@ h4{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:.01em}
 /* STACK */
 .tech-group+.tech-group{margin-top:clamp(36px,4vw,56px)}
 .tech-group-title{font-family:var(--sans);font-size:15px;font-weight:500;letter-spacing:0;color:var(--slate);margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
-.tech-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,20px)}
+.tech-grid{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
 .tech{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:16px;row-gap:2px;align-items:center;padding:clamp(18px,2vw,26px);background:var(--paper);border:1px solid var(--line);border-radius:18px;transition:border-color .3s,transform .3s var(--ease),box-shadow .3s}
 .tech:hover{border-color:var(--c);transform:translateY(-3px);box-shadow:0 18px 36px -24px rgba(29,34,36,.35)}
 .tech svg{grid-row:1 / span 2;width:34px;height:34px;color:var(--c)}
 .tech-name{font-family:var(--serif);font-weight:500;font-size:clamp(20px,1.7vw,24px);letter-spacing:-.02em;line-height:1.1}
 .tech-role{font-size:14px;color:var(--slate)}
 
+/* Parcours : un sentier sur la crête, qui se trace au défilement */
+.sentier{position:relative;margin-top:clamp(48px,6vw,80px);aspect-ratio:1920/1072;border-radius:22px;overflow:hidden;background:#3a3f52;--p:0}
+.sentier img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sentier::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,24,30,0) 40%,rgba(20,24,30,.35) 100%);pointer-events:none}
+.s-trace{position:absolute;inset:0;width:100%;height:100%;z-index:1;overflow:visible}
+.s-trace path{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.s-ombre{stroke:rgba(20,24,30,.45);stroke-width:8}
+.s-trace .s-chemin{stroke:#FFE9D2;stroke-width:3.5;vector-effect:none;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--p));filter:drop-shadow(0 0 6px rgba(255,214,170,.7))}
+.s-suite{stroke:rgba(255,233,210,.8);stroke-width:2;stroke-dasharray:2 7;opacity:calc(var(--p) * 1.4 - .4)}
+.s-point,.s-sommet{position:absolute;z-index:2;left:calc(var(--x) * 1%);top:calc(var(--y) * 1%);transform:translate(-50%,-50%);display:flex;align-items:center;gap:10px}
+.s-point b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:600;background:rgba(20,24,30,.55);color:#fff;border:1.5px solid rgba(255,255,255,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .5s,color .5s,border-color .5s,transform .5s var(--ease);transform:scale(.85)}
+.s-point em,.s-sommet em{font-style:normal;font-size:14px;font-weight:500;color:#fff;white-space:nowrap;padding:5px 11px;border-radius:999px;background:rgba(20,24,30,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;transform:translateX(-6px);transition:opacity .5s,transform .5s var(--ease)}
+.s-point em{position:absolute;left:40px}
+.s-point.on b{background:#FFE9D2;color:var(--ink);border-color:#FFE9D2;transform:scale(1)}
+.s-point.on em{opacity:1;transform:none}
+.s-ici.on b{background:var(--dusk);border-color:#fff;color:#fff;box-shadow:0 0 0 0 rgba(255,233,210,.6);animation:step-pulse 2.4s infinite}
+.s-sommet{gap:8px}
+.s-sommet::before{content:"";width:2px;height:26px;background:#fff;box-shadow:6px -8px 0 -1px transparent}
+.s-sommet::after{content:"";position:absolute;left:1px;top:-1px;width:14px;height:10px;background:var(--dusk);clip-path:polygon(0 0,100% 50%,0 100%)}
+.s-sommet em{position:absolute;left:18px;top:-6px}
+.sentier.fin .s-sommet em{opacity:.9;transform:none}
+.sentier ~ .timeline{margin-top:clamp(28px,4vw,48px)}
+.sentier ~ .timeline::before{display:none}
+.sentier ~ .timeline .step{padding-top:0}
+.sentier ~ .timeline .step-dot{display:none}
+.sentier ~ .timeline .step-status::before{content:counter(etape) " · ";counter-increment:etape}
+.sentier ~ .timeline{counter-reset:etape}
+@media (max-width:760px){
+  .sentier{border-radius:16px;aspect-ratio:4/3}
+  .sentier img{object-position:62% 50%}
+  .s-point em,.s-sommet em{display:none}
+  .sentier ~ .timeline{padding-left:0}
+}
+/* Stack compacte */
+.tech-group{display:grid;grid-template-columns:minmax(160px,220px) 1fr;gap:16px 32px;align-items:start}
+.tech-group+.tech-group{margin-top:clamp(18px,2vw,26px);padding-top:clamp(18px,2vw,26px);border-top:1px solid var(--line)}
+.tech-group-title{margin:10px 0 0!important;padding:0!important;border:0!important}
+.tech-grid .tech{display:flex;align-items:center;gap:10px;padding:9px 16px 9px 12px;border-radius:999px;column-gap:10px}
+.tech-grid .tech svg{width:22px;height:22px}
+.tech-grid .tech-name{font-family:var(--sans);font-size:15px;font-weight:500;letter-spacing:0}
+.tech-grid .tech-role{font-size:13.5px}
+.tech-grid .tech-role::before{content:"· ";color:var(--line)}
+@media (max-width:760px){.tech-group{grid-template-columns:1fr;gap:10px}.tech-grid .tech-role{display:none}}
 /* CONTACT */
 .contact{margin-top:clamp(96px,12vw,160px);background:var(--ink);color:var(--mist);padding:clamp(72px,10vw,120px) 0 calc(36px + env(safe-area-inset-bottom,0px));position:relative;overflow:hidden}
-.contact::before{content:"";position:absolute;inset:0;background:url('/assets/hero.svg') center 80%/cover;opacity:.14;mix-blend-mode:luminosity}
+/* Le même paysage qu'en haut de page, au crépuscule : l'aube en arrivant, le soir en partant */
+.contact{background:#1b2030}
+.contact::before{content:"";position:absolute;inset:-14% 0 -14%;background:url('/assets/scene/crepuscule.webp') center 70%/cover;transform:translateY(var(--cy,0px));will-change:transform}
+.contact::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,24,34,.55) 0%,rgba(20,24,34,.25) 45%,rgba(20,24,34,.7) 100%);pointer-events:none}
+.contact .wrap{z-index:1}
 .contact .wrap{position:relative}
 .contact h2{font-size:clamp(44px,7vw,100px);max-width:12ch}
 .contact-row{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap}
@@ -388,10 +448,10 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
       <article class="project p-hive reveal" aria-labelledby="hive-title">
         <div class="project-top">
           <div class="stage"><svg class="alveoles" viewBox="0 0 64 64" aria-hidden="true"><polygon class="a1" pathLength="1" points="20.22,11.20 29.40,16.50 29.40,27.10 20.22,32.40 11.04,27.10 11.04,16.50"/><polygon class="a2" pathLength="1" points="43.78,11.20 52.96,16.50 52.96,27.10 43.78,32.40 34.60,27.10 34.60,16.50"/><polygon class="a3" pathLength="1" points="32.00,31.70 41.09,36.95 41.09,47.45 32.00,52.70 22.91,47.45 22.91,36.95"/></svg>
-            <div class="browser" aria-hidden="true">
+            <div class="vitrine" aria-hidden="true"><div class="browser">
               <div class="bar"><b></b><b></b><b></b><em>hive-app.ch</em></div>
               <img class="app-shot" src="/assets/hive-bienvenue.jpg" alt="" width="1440" height="900" loading="lazy">
-            </div>
+            </div></div>
           </div>
           <div class="project-info">
             <div class="meta"><span class="live">En ligne</span><span>Application web, 2026</span></div>
@@ -405,6 +465,7 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
           </div>
         </div>
 
+        <details class="detail"><summary><span>Voir le détail technique</span><i aria-hidden="true"></i></summary><div class="detail-in">
         <div class="project-body">
           <div>
             <h4>Fonctionnalités</h4>
@@ -443,15 +504,16 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
           <div><h4>Infrastructure</h4><div class="chips"><span style="--c:#000000"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.263.007c-3.121-.147-5.744 2.109-6.192 5.082-.018.138-.045.272-.067.405-.696 3.703-3.936 6.507-7.827 6.507-1.388 0-2.691-.356-3.825-.979a.2024.2024 0 0 0-.302.178V24H12v-8.999c0-1.656 1.338-3 2.987-3h2.988c3.382 0 6.103-2.817 5.97-6.244-.12-3.084-2.61-5.603-5.682-5.75"/></svg>Render</span><span style="--c:#2496ED"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"/></svg>Docker</span><span style="--c:#E6522C"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0C5.373 0 0 5.372 0 12c0 6.627 5.373 12 12 12s12-5.373 12-12c0-6.628-5.373-12-12-12zm0 22.46c-1.885 0-3.414-1.26-3.414-2.814h6.828c0 1.553-1.528 2.813-3.414 2.813zm5.64-3.745H6.36v-2.046h11.28v2.046zm-.04-3.098H6.391c-.037-.043-.075-.086-.111-.13-1.155-1.401-1.427-2.133-1.69-2.879-.005-.025 1.4.287 2.395.511 0 0 .513.119 1.262.255-.72-.843-1.147-1.915-1.147-3.01 0-2.406 1.845-4.508 1.18-6.207.648.053 1.34 1.367 1.387 3.422.689-.951.977-2.69.977-3.755 0-1.103.727-2.385 1.454-2.429-.648 1.069.168 1.984.894 4.256.272.854.237 2.29.447 3.201.07-1.892.395-4.652 1.595-5.605-.529 1.2.079 2.702.494 3.424.671 1.164 1.078 2.047 1.078 3.716a4.642 4.642 0 01-1.11 2.996c.792-.149 1.34-.283 1.34-.283l2.573-.502s-.374 1.538-1.81 3.019z"/></svg>Prometheus</span><span style="--c:#F46800"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.02 10.59a8.578 8.578 0 0 0-.862-3.034 8.911 8.911 0 0 0-1.789-2.445c.337-1.342-.413-2.505-.413-2.505-1.292-.08-2.113.4-2.416.62-.052-.02-.102-.044-.154-.064-.22-.089-.446-.172-.677-.247-.231-.073-.47-.14-.711-.197a9.867 9.867 0 0 0-.875-.161C14.557.753 12.94 0 12.94 0c-1.804 1.145-2.147 2.744-2.147 2.744l-.018.093c-.098.029-.2.057-.298.088-.138.042-.275.094-.413.143-.138.055-.275.107-.41.166a8.869 8.869 0 0 0-1.557.87l-.063-.029c-2.497-.955-4.716.195-4.716.195-.203 2.658.996 4.33 1.235 4.636a11.608 11.608 0 0 0-.607 2.635C1.636 12.677.953 15.014.953 15.014c1.926 2.214 4.171 2.351 4.171 2.351.003-.002.006-.002.006-.005.285.509.615.994.986 1.446.156.19.32.371.488.548-.704 2.009.099 3.68.099 3.68 2.144.08 3.553-.937 3.849-1.173a9.784 9.784 0 0 0 3.164.501h.08l.055-.003.107-.002.103-.005.003.002c1.01 1.44 2.788 1.646 2.788 1.646 1.264-1.332 1.337-2.653 1.337-2.94v-.058c0-.02-.003-.039-.003-.06.265-.187.52-.387.758-.6a7.875 7.875 0 0 0 1.415-1.7c1.43.083 2.437-.885 2.437-.885-.236-1.49-1.085-2.216-1.264-2.354l-.018-.013-.016-.013a.217.217 0 0 1-.031-.02c.008-.092.016-.18.02-.27.011-.162.016-.323.016-.48v-.253l-.005-.098-.008-.135a1.891 1.891 0 0 0-.01-.13c-.003-.042-.008-.083-.013-.125l-.016-.124-.018-.122a6.215 6.215 0 0 0-2.032-3.73 6.015 6.015 0 0 0-3.222-1.46 6.292 6.292 0 0 0-.85-.048l-.107.002h-.063l-.044.003-.104.008a4.777 4.777 0 0 0-3.335 1.695c-.332.4-.592.84-.768 1.297a4.594 4.594 0 0 0-.312 1.817l.003.091c.005.055.007.11.013.164a3.615 3.615 0 0 0 .698 1.82 3.53 3.53 0 0 0 1.827 1.282c.33.098.66.14.971.137.039 0 .078 0 .114-.002l.063-.003c.02 0 .041-.003.062-.003.034-.002.065-.007.099-.01.007 0 .018-.003.028-.003l.031-.005.06-.008a1.18 1.18 0 0 0 .112-.02c.036-.008.072-.013.109-.024a2.634 2.634 0 0 0 .914-.415c.028-.02.056-.041.085-.065a.248.248 0 0 0 .039-.35.244.244 0 0 0-.309-.06l-.078.042c-.09.044-.184.083-.283.116a2.476 2.476 0 0 1-.475.096c-.028.003-.054.006-.083.006l-.083.002c-.026 0-.054 0-.08-.002l-.102-.006h-.012l-.024.006c-.016-.003-.031-.003-.044-.006-.031-.002-.06-.007-.091-.01a2.59 2.59 0 0 1-.724-.213 2.557 2.557 0 0 1-.667-.438 2.52 2.52 0 0 1-.805-1.475 2.306 2.306 0 0 1-.029-.444l.006-.122v-.023l.002-.031c.003-.021.003-.04.005-.06a3.163 3.163 0 0 1 1.352-2.29 3.12 3.12 0 0 1 .937-.43 2.946 2.946 0 0 1 .776-.101h.06l.07.002.045.003h.026l.07.005a4.041 4.041 0 0 1 1.635.49 3.94 3.94 0 0 1 1.602 1.662 3.77 3.77 0 0 1 .397 1.414l.005.076.003.075c.002.026.002.05.002.075 0 .024.003.052 0 .07v.065l-.002.073-.008.174a6.195 6.195 0 0 1-.08.639 5.1 5.1 0 0 1-.267.927 5.31 5.31 0 0 1-.624 1.13 5.052 5.052 0 0 1-3.237 2.014 4.82 4.82 0 0 1-.649.066l-.039.003h-.287a6.607 6.607 0 0 1-1.716-.265 6.776 6.776 0 0 1-3.4-2.274 6.75 6.75 0 0 1-.746-1.15 6.616 6.616 0 0 1-.714-2.596l-.005-.083-.002-.02v-.056l-.003-.073v-.096l-.003-.104v-.07l.003-.163c.008-.22.026-.45.054-.678a8.707 8.707 0 0 1 .28-1.355c.128-.444.286-.872.473-1.277a7.04 7.04 0 0 1 1.456-2.1 5.925 5.925 0 0 1 .953-.763c.169-.111.343-.213.524-.306.089-.05.182-.091.273-.135.047-.02.093-.042.138-.062a7.177 7.177 0 0 1 .714-.267l.145-.045c.049-.015.098-.026.148-.041.098-.029.197-.052.296-.076.049-.013.1-.02.15-.033l.15-.032.151-.028.076-.013.075-.01.153-.024c.057-.01.114-.013.171-.023l.169-.021c.036-.003.073-.008.106-.01l.073-.008.036-.003.042-.002c.057-.003.114-.008.171-.01l.086-.006h.023l.037-.003.145-.007a7.999 7.999 0 0 1 1.708.125 7.917 7.917 0 0 1 2.048.68 8.253 8.253 0 0 1 1.672 1.09l.09.077.089.078c.06.052.114.107.171.159.057.052.112.106.166.16.052.055.107.107.159.164a8.671 8.671 0 0 1 1.41 1.978c.012.026.028.052.04.078l.04.078.075.156c.023.051.05.1.07.153l.065.15a8.848 8.848 0 0 1 .45 1.34.19.19 0 0 0 .201.142.186.186 0 0 0 .172-.184c.01-.246.002-.532-.024-.856z"/></svg>Grafana</span><span style="--c:#1D2224"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="14 3 14 9 20 9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>Winston</span></div></div>
         </div>
         <p class="origin">Hive est l'évolution de Hatch, mon projet de diplôme, repensé et mis en production.</p>
+        </div></details>
       </article>
 
       <article class="project p-neo reveal" aria-labelledby="neosite-title">
         <div class="project-top">
           <div class="stage">
-            <div class="browser" aria-hidden="true">
+            <div class="vitrine" aria-hidden="true"><div class="browser">
               <div class="bar"><b></b><b></b><b></b><em>neosite.tech</em></div>
               <span class="balayage" aria-hidden="true"></span><img class="app-shot" src="/assets/neosite-reecriture.jpg" alt="" width="1440" height="900" loading="lazy">
-            </div>
+            </div></div>
           </div>
           <div class="project-info">
             <div class="meta"><span class="live">En ligne</span><span>Studio de refonte, 2026</span></div>
@@ -464,6 +526,7 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
           </div>
         </div>
 
+        <details class="detail"><summary><span>Voir comment une refonte est produite</span><i aria-hidden="true"></i></summary><div class="detail-in">
         <div class="itineraire" id="itineraire">
           <div class="iti-head">
             <h4>Comment une refonte est produite</h4>
@@ -504,15 +567,16 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
           <div><h4>Sites livrés</h4><div class="chips"><span style="--c:#88CE02"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c3-8 6-12 16-12"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="6" r="1.6"/></svg>GSAP</span><span style="--c:#FF98A2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12c2.5-4 5-4 7.5 0s5 4 7.5 0 3.5-3 5-2"/></svg>Lenis</span><span style="--c:#F44B21"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l3 5H9zM9.5 8.5h5l1.5 12.5h-8z"/><path d="M8.6 14h6.8"/></svg>Lighthouse</span></div></div>
           <div><h4>neosite.tech</h4><div class="chips"><span style="--c:#149ECA"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></svg>React</span><span style="--c:#D6B700"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h4l3-8 4 16 3-8h2"/></svg>Motion</span><span style="--c:#000000"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9.5 17h-19z" fill="currentColor"/></svg>Vercel</span></div></div>
         </div>
+        </div></details>
       </article>
 
       <article class="project p-eno reveal" aria-labelledby="enosis-title">
         <div class="project-top">
           <div class="stage"><span class="enosis-defile" aria-hidden="true">Enosis Enosis Enosis Enosis</span>
-            <div class="browser" aria-hidden="true">
+            <div class="vitrine" aria-hidden="true"><div class="browser">
               <div class="bar"><b></b><b></b><b></b><em>enosis.shop</em></div>
               <img class="app-shot" src="/assets/enosis-accueil.jpg" alt="" width="1440" height="900" loading="lazy">
-            </div>
+            </div></div>
           </div>
           <div class="project-info">
             <div class="meta"><span class="live">En ligne</span><span>Marque et boutique en ligne, 2026</span></div>
@@ -525,6 +589,7 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
           </div>
         </div>
 
+        <details class="detail"><summary><span>Voir le détail : production, boutique, lancement</span><i aria-hidden="true"></i></summary><div class="detail-in">
         <div class="project-body">
           <div>
             <h4>Production</h4>
@@ -568,6 +633,7 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
           <div><h4>Commerce</h4><div class="chips"><span style="--c:#5E8E3E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>Shopify</span><span style="--c:#5C6AC4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/></svg>Oxygen</span></div></div>
           <div><h4>Motion</h4><div class="chips"><span style="--c:#88CE02"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c3-8 6-12 16-12"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="6" r="1.6"/></svg>GSAP</span><span style="--c:#FF98A2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12c2.5-4 5-4 7.5 0s5 4 7.5 0 3.5-3 5-2"/></svg>Lenis</span></div></div>
         </div>
+        </div></details>
       </article>
 
       <div class="more reveal">
@@ -590,6 +656,19 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
     </div>
 
     <div class="wrap">
+      <div class="sentier" id="sentier" aria-hidden="true">
+        <img class="s-ciel" src="/assets/scene/ciel.webp" alt="" loading="lazy" decoding="async">
+        <img class="s-cretes" src="/assets/scene/cretes.webp" alt="" loading="lazy" decoding="async">
+        <svg class="s-trace" viewBox="0 0 1000 558" preserveAspectRatio="none">
+          <path class="s-ombre" d="M30 540 C 110 500, 160 420, 220 370 S 360 330, 500 335 S 640 260, 740 206"/>
+          <path class="s-chemin" pathLength="1" d="M30 540 C 110 500, 160 420, 220 370 S 360 330, 500 335 S 640 260, 740 206"/>
+          <path class="s-suite" d="M740 206 C 780 190, 820 178, 857 167"/>
+        </svg>
+        <span class="s-point" style="--x:22;--y:66.3" data-seuil="0.2"><b>1</b><em>CFC</em></span>
+        <span class="s-point" style="--x:50;--y:60" data-seuil="0.58"><b>2</b><em>Technicien</em></span>
+        <span class="s-point s-ici" style="--x:74;--y:36.9" data-seuil="0.82"><b>3</b><em>Bachelor, en cours</em></span>
+        <span class="s-sommet" style="--x:85.7;--y:29.9"><em>La suite</em></span>
+      </div>
       <ol class="timeline reveal" aria-label="Cursus">
         <li class="step">
           <span class="step-dot" aria-hidden="true"></span>
@@ -705,7 +784,7 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
     var y=window.scrollY;
     avance();
     nav.classList.toggle('scrolled',prog>0.86||y>hero.offsetHeight-window.innerHeight*0.25);
-    sy=y;piste();defile();
+    sy=y;piste();defile();trace();contactCiel();
     ticking=false;
   }
   // Scène en couches (images Higgsfield détourées). Trois temps au défilement :
@@ -774,7 +853,7 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
   // Captures : inclinaison discrète sous la souris
   if(survol&&!reduce){
     document.querySelectorAll('.stage').forEach(function(st){
-      var b=st.querySelector('.browser');if(!b)return;
+      var b=st.querySelector('.vitrine');if(!b)return;
       st.addEventListener('pointermove',function(e){
         var r=st.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
         b.style.setProperty('--ry',(x*6).toFixed(2)+'deg');b.style.setProperty('--rx',(-y*5).toFixed(2)+'deg');
@@ -782,6 +861,37 @@ footer a{text-decoration:none;color:#E2E5E0}footer a:hover{text-decoration:under
       });
       st.addEventListener('pointerleave',function(){b.style.removeProperty('--ry');b.style.removeProperty('--rx');st.style.removeProperty('--mx');st.style.removeProperty('--my')});
     });
+  }
+
+  // Parcours : le sentier se trace avec le défilement ; chaque étape s'allume au moment où le trait l'atteint
+  var sentier=document.getElementById('sentier'),points=sentier?[].slice.call(sentier.querySelectorAll('.s-point')):[];
+  var chemin=sentier&&sentier.querySelector('.s-chemin');
+  // Position de chaque étape le long du chemin (fraction de sa longueur), calculée une fois
+  if(chemin&&chemin.getTotalLength){
+    var L=chemin.getTotalLength();
+    points.forEach(function(pt){
+      var x=parseFloat(pt.style.getPropertyValue('--x'))*10,y=parseFloat(pt.style.getPropertyValue('--y'))*5.58,best=0,dmin=1e9;
+      for(var l=0;l<=L;l+=L/200){var q=chemin.getPointAtLength(l),d=(q.x-x)*(q.x-x)+(q.y-y)*(q.y-y);if(d<dmin){dmin=d;best=l}}
+      pt.setAttribute('data-seuil',(best/L).toFixed(3));
+    });
+  }
+  function trace(){
+    if(!sentier)return;
+    var r=sentier.getBoundingClientRect(),vh=window.innerHeight;
+    // tracé complet quand le haut du sentier atteint 22 % de l'écran : tout le sentier est encore visible
+    var p=reduce?1:Math.min(1,Math.max(0,(vh*0.62-r.top)/(vh*0.4)));
+    sentier.style.setProperty('--p',p.toFixed(3));
+    points.forEach(function(pt){pt.classList.toggle('on',p>=parseFloat(pt.getAttribute('data-seuil'))-0.005)});
+    sentier.classList.toggle('fin',p>=0.995);
+  }
+
+  // Contact : le paysage du soir glisse doucement
+  var contactEl=document.getElementById('contact');
+  function contactCiel(){
+    if(!contactEl||reduce)return;
+    var r=contactEl.getBoundingClientRect(),vh=window.innerHeight;
+    if(r.top>vh||r.bottom<0)return;
+    contactEl.style.setProperty('--cy',((r.top-vh)*0.12).toFixed(1)+'px');
   }
 
   // Étapes Neosite : la piste se remplit avec le défilement
